@@ -82,8 +82,8 @@ Connect :
 - [LinkedIn](https://www.linkedin.com/in/adi-tsvet/) 
 
 ## References
-UMB Tutoring Programs - https://www.umb.edu/academics/seas/center-for-academic-excellence/tutoring-programs/
-Website reference - https://traccloud.umb.edu/
+1. UMB Tutoring Programs - https://www.umb.edu/academics/seas/center-for-academic-excellence/tutoring-programs/
+2. Website reference - https://traccloud.umb.edu/
 
 For more details refer this documentation : 
 [UMB-OATS User Documentation](UMB_OATS_User_Documentation_Final.pdf)
