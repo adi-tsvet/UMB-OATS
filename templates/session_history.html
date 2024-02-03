@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}Session History{% endblock %}
+{% block top_heading %}
+    <h1 class="h3 mb-0 text-gray-900">Session History</h1>
+{% endblock %}
+{% block content %}
+
+    <div class="card-body">
+        <form method="GET" id="filter-form">
+            <div class="row justify-content-center">
+                <div class="col-md-4 mb-3">
+                    <div class="card border-primary shadow">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <label for="date-select" class="mr-3 mb-0">Choose a Semester:</label>
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <input type="date" name="date" id="date-select" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 text-center">
+                    <button type="submit" class="btn btn-toggle btn-primary btn-lg mt-3">Filter</button>
+                    <div id="applied-filter"></div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <hr>
+    {% if user.is_authenticated %}
+        {% if request.user.student %}
+            <div class="container-fluid card  shadow py-2 mr-5 ml-2 mt-3">
+            <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 300px;">
+                {% for session in student_session_history %}
+
+                    <div class="col mb-1">
+                        <div class="card">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <div class="card-body text-gray-800">
+                                        <div class="h6">
+                                            <i class="fas fa-archive"></i>
+                                            : {{ session.semester }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-calendar"></i>
+                                            : {{ session.date }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-alt"></i>
+                                            : {{ session.tutor }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body text-gray-800">
+                                        <div class="h6">
+                                            <i class="fas fa-clock"></i>
+                                            : {{ session.get_timeblock_display }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-book"></i>
+                                            : {{ session.course }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-clock"></i>
+                                            : 1 hr
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>No sessions today.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if request.user.tutor %}
+            <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
+            <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto mr-5 ml-2 mt-3" >
+                {% for session in tutor_session_history %}
+                    <div class="col mb-1">
+                        <div class="card">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <div class="card-body text-gray-800">
+                                        <div class="h6">
+                                            <i class="fas fa-archive"></i>
+                                            : {{ session.semester }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-calendar"></i>
+                                            : {{ session.date }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-alt"></i>
+                                            : {{ session.booked_by }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body text-gray-800">
+                                        <div class="h6">
+                                            <i class="fas fa-clock"></i>
+                                            : {{ session.get_timeblock_display }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-book"></i>
+                                            : {{ session.course }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-clock"></i>
+                                            : 1 hr
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+                    {% empty %}
+                    <p>No sessions today.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+
+
+{% endblock %}

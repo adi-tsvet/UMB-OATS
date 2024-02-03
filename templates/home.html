@@ -1,0 +1,606 @@
+
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block top_heading %}
+    <h1 class="h3 mb-0 text-gray-900">Dashboard</h1>
+{% endblock %}
+{% block content %}
+
+    <!-- Content Row -->
+    {% if request.user.student or request.user.tutor %}
+        <div class="row mr-5 ml-2 mt-3">
+
+        <!-- Session Completed Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Completed Session(s)</div>
+                           
+
+
+                            {% if request.user.student and request.user.tutor %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Student : {{ sdonesessions|length }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Tutor : {{ tdonesessions|length }}</div>
+                            {% elif request.user.student %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ sdonesessions|length }}</div>
+                            {% else %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tdonesessions|length }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-award fa-2x "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Session Upcoming Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Upcoming Session(s)</div>
+                            
+
+                            {% if request.user.student and request.user.tutor %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Student : {{ upsessions|length }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Tutor : {{ uptutsessions|length }}</div>
+                            {% elif request.user.student %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ upsessions|length }}</div>
+                            {% else %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ uptutsessions|length }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Today's Sessions Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Today's Session(s)</div>
+                            
+
+                            {% if request.user.student and request.user.tutor %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Student : {{ tsessions|length }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Tutor : {{ ttutsessions|length }}</div>
+                            {% elif request.user.student %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tsessions|length }}</div>
+                            {% else %}
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ ttutsessions|length }}</div>
+                            {% endif %}
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-comments fa-2x "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- No Show Card in Student -->
+        {% if request.user.student %}
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                No Show(s)</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ no_show }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-eye-slash fa-2x "></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+
+
+    </div>
+    {% endif %}
+
+    {% if user.is_superuser %}
+        <div class="row mr-5 ml-2 mt-3">
+
+            <!-- Total Session Card -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Total Session(s)</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ sessions_Count }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-award fa-2x "></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Number of Tutors Card -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Number of Tutor(s)</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ tutors_count }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-chalkboard-teacher fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Number of Student  Card -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Number of Students</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ students_count }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user-alt fa-2x "></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Number of Courses Card -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Number of Course(s)</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{ courses_count }}</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-book fa-2x "></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+        </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        {% if request.user.student %}
+            <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
+                <h5 class="m-0 font-weight-bold text-primary text-uppercase"> Today's sessions: </h5>
+                <hr class="sidebar-divider">
+                <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto text-gray-800" style="max-height: 180px;">
+                    {% for session in tsessions %}
+
+                        <div class="col mb-1">
+                            <div class="card">
+                                <div class="row g-0">
+                                    <div class="col-md-6">
+                                        <div class="card-body text-gray-800">
+                                            <div class="h6">
+                                                <i class="fas fa-archive"></i>
+                                                : {{ session.semester }}
+                                            </div>
+                                            <div class="h6">
+                                                <i class="fas fa-calendar"></i>
+                                                : {{ session.date }}
+                                            </div>
+                                            <div class="h6">
+                                                <i class="fas fa-user-alt"></i>
+                                                : {{ session.tutor }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card-body">
+                                            <div class="h6">
+                                                <i class="fas fa-clock"></i>
+                                                : {{ session.get_timeblock_display }}
+                                            </div>
+                                            <div class="h6">
+                                                <i class="fas fa-book"></i>
+                                                : {{ session.course }}
+                                            </div>
+                                            <div class="h6">
+                                                <i class="fas fa-user-clock"></i>
+                                                :  1 hr
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>No sessions today.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3" >
+                <h5 class="m-0 font-weight-bold text-primary text-uppercase"> Upcoming sessions: </h5>
+                <hr class="sidebar-divider">
+                <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
+                    {% for session in upsessions %}
+                            <div class="col mb-1">
+                                <div class="card">
+                                    <div class="row g-0">
+                                        <div class="col-md-6">
+                                            <div class="card-body text-gray-800">
+                                                <div class="h6">
+                                                    <i class="fas fa-archive"></i>
+                                                    : {{ session.semester }}
+                                                </div>
+                                                <div class="h6">
+                                                    <i class="fas fa-calendar "></i>
+                                                    : {{ session.date }}
+                                                </div>
+                                                <div class="h6">
+                                                    <i class="fas fa-user-alt"></i>
+                                                    : {{ session.tutor }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="card-body text-gray-800">
+                                                <div class="h6">
+                                                    <i class="fas fa-clock"></i>
+                                                    : {{ session.get_timeblock_display }}
+                                                </div>
+                                                <div class="h6">
+                                                    <i class="fas fa-book"></i>
+                                                    : {{ session.course }}
+                                                </div>
+                                                <div class="h6">
+                                                    <i class="fas fa-user-clock"></i>
+                                                    :  1 hr
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="btn btn-primary " onclick="cancelSession({{ session.id }})">Cancel session</a>
+                                </div>
+                            </div>                    
+                        {% empty %}
+                        <p>No upcoming sessions found.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        {% if request.user.tutor %}
+
+        <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
+            <h5 class="m-0 font-weight-bold text-primary text-uppercase"> Today's Tutoring sessions: </h5>
+            <hr class="sidebar-divider">
+            <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto mr-5 ml-2 mt-3" >
+                {% for session in ttutsessions %}
+                    <div class="col mb-1">
+                        <div class="card">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <div class="card-body text-gray-800">
+                                        <div class="h6">
+                                            <i class="fas fa-archive"></i>
+                                            : {{ session.semester }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-calendar"></i>
+                                            : {{ session.date }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-alt"></i>
+                                            : {{ session.booked_by }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body text-gray-800">
+                                        <div class="h6">
+                                            <i class="fas fa-clock"></i>
+                                            : {{ session.get_timeblock_display }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-book"></i>
+                                            : {{ session.course }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-clock"></i>
+                                            : 1 hr
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                       </div>
+                    </div>
+                    {% empty %}
+                    <p>No sessions today.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="container-fluid card border-left-primary shadow py-2 mr-5 ml-2 mt-3">
+            <h5 class="m-0 font-weight-bold text-primary text-uppercase"> Upcoming tutoring sessions: </h5>
+            <hr class="sidebar-divider">
+            <div id="card-container" class="row row-cols-1 row-cols-md-2 overflow-auto" style="max-height: 180px;">
+                {% for session in uptutsessions %}
+                    <div class="col mb-2">
+                        <div class="card">
+                            <div class="row g-0">
+                                <div class="col-md-6">
+                                    <div class="card-body text-gray-800">
+                                        <div class="h6">
+                                            <i class="fas fa-archive"></i>
+                                            : {{ session.semester }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-calendar"></i>
+                                            : {{ session.date }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-alt"></i>
+                                            : {{ session.booked_by }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body text-gray-800">
+                                        <div class="h6">
+                                            <i class="fas fa-clock"></i>
+                                            : {{ session.get_timeblock_display }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-book"></i>
+                                            : {{ session.course }}
+                                        </div>
+                                        <div class="h6">
+                                            <i class="fas fa-user-clock"></i>
+                                            : 1 hr
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="#" class="btn btn-primary " onclick="cancelSession({{ session.id }})">Cancel session</a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>No upcoming tutoring sessions found.</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+
+        {% if user.is_superuser %}
+{#            For Graphs pie and line chart#}
+            <div class="row m-2">
+
+                <!-- Histogram Chart -->
+                <div class="col-xl-8 col-lg-7">
+                    <div class="card shadow mb-2">
+                        <!-- Card Header - Dropdown -->
+                        <div
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Sessions Overview</h6>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                     aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Dropdown Header:</div>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-area" style="position: relative; height: 450px;">
+                                <canvas id="histogramChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie Chart -->
+                <div class="col-xl-4 col-lg-5">
+                    <div class="card shadow mb-4">
+                        <!-- Card Header - Dropdown -->
+                        <div
+                                class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                            <h6 class="m-0 font-weight-bold text-primary">Student : Tutor</h6>
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                     aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Dropdown Header:</div>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Card Body -->
+                        <div class="card-body">
+                            <div class="chart-pie pt-4 pb-2">
+                                <canvas id="dataPieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        {% endif %}
+
+    {% endif %}
+
+{#    Session Cancellation Script#}
+    <script>
+        function cancelSession(sessionId) {
+            if (confirm("Are you sure you want to cancel this session?")) {
+                $.ajax({
+                    url: "/cancel-session/",
+                    type: "POST",
+                    data: {
+                        session_id: sessionId,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success) {
+                            alert("Session cancelled successfully.");
+                            window.location.reload();
+                        } else {
+                            alert("Failed to cancel session: " + response.error);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert("An error occurred while cancelling session: " + error);
+                    }
+                });
+            }
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{#    Histogram for session vs course#}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Extract the data from the Django context
+            var sessionData = JSON.parse('{{ session_data_json|escapejs }}');
+
+            // Extract the course names and number of sessions
+            var courses = Object.keys(sessionData);
+            var numSessions = Object.values(sessionData);
+
+            // Create the histogram chart using Chart.js
+            var ctx = document.getElementById('histogramChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: courses,
+                    datasets: [{
+                        label: 'Number of Sessions',
+                        data: numSessions,
+                        backgroundColor: 'rgb(120,176,234)',
+                        borderColor: 'rgb(120,176,234)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Course'
+                            }
+                        },
+                        y: {
+                            display: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Sessions'
+                            },
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+
+
+    {#    Pie Chart Script#}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Extract the data from the Django context
+            var studentsCount = {{ students_count }};
+            var tutorsCount = {{ tutors_count }};
+
+            // Create the pie chart using Chart.js
+            var ctx = document.getElementById('dataPieChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Students', 'Tutors'],
+                    datasets: [{
+                        data: [studentsCount, tutorsCount],
+                        backgroundColor: ['rgb(54, 162, 235)', 'rgb(75, 192, 192)'],
+                        hoverBackgroundColor: ['rgb(54, 162, 235)', 'rgb(75, 192, 192)'],
+                        hoverBorderColor: 'rgba(234, 236, 244, 1)',
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        backgroundColor: 'rgb(255,255,255)',
+                        bodyFontColor: '#858796',
+                        borderColor: '#dddfeb',
+                        borderWidth: 1,
+                        xPadding: 15,
+                        yPadding: 15,
+                        displayColors: false,
+                        caretPadding: 10,
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            fontSize: 12,
+                            padding: 20,
+                            usePointStyle: true,
+                        },
+                    },
+                    cutoutPercentage: 80,
+                },
+            });
+        });
+    </script>
+
+{% endblock %}
+
