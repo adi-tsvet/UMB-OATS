@@ -70,5 +70,20 @@ UMB-OATS contributes to a more organized and efficient tutoring system at the Un
 2. HTML
 3. Bootstrap
 
+## Authors
+
+* **Adnan Ali** - Project Lead & Main Contributor
+
+As a Master's degree holder in Computer Science from UMass Boston, I have utilized my expertise in machine learning and computer vision to spearhead the development of this integrated model system. 
+With a keen eye for innovative solutions, I have orchestrated the seamless fusion of posture analysis and logo detection models, showcasing state-of-the-art techniques in the realm of AI.
+
+Connect :
+- [GitHub](https://github.com/adi-tsvet)
+- [LinkedIn](https://www.linkedin.com/in/adi-tsvet/) 
+
+## References
+UMB Tutoring Programs - https://www.umb.edu/academics/seas/center-for-academic-excellence/tutoring-programs/
+Website reference - https://traccloud.umb.edu/
+
 For more details refer this documentation : 
 [UMB-OATS User Documentation](UMB_OATS_User_Documentation_Final.pdf)
